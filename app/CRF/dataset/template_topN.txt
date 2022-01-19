@@ -1,0 +1,2 @@
+告訴我class中花費最高的前N名
+time花費最高的class前N名

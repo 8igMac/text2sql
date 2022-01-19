@@ -1,0 +1,3 @@
+time花費最高是哪一天
+找出time花費最貴的class
+time花費最高的item及其價錢是什麼？

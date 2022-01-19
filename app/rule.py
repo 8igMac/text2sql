@@ -1,4 +1,11 @@
 from enum import Enum
+from app.CRF.predict import predict
+
+# NOTE: Solve pickle reference issue. See [here](https://stackoverflow.com/questions/2121874/python-pickling-after-changing-a-modules-directory/2121918#2121918)
+import os
+import sys
+current_dir = os.path.dirname(__file__)
+sys.path.append(f'{current_dir}/CRF/')
 
 class Intent(Enum):
     GET_PERCENTAGE = 1

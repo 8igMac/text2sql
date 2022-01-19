@@ -1,0 +1,7 @@
+class在time共花多少錢
+找出time我花在class總共多少錢
+time我花多少錢？
+class總共花多少錢
+time花最多錢的那天我花了多少
+在time花在class上的錢總共有多少？
+time在class花費前N名的item
