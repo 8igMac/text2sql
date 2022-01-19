@@ -1,0 +1,96 @@
+<html>
+<head>
+  <title>Text2sql</title>
+  <!-- Local CSS -->
+  <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+  <!-- TODO: move this to local CSS -->
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    Text2SQL
+  </h1>
+
+  <!-- Use FastAPI variables. -->
+  <!-- <h2> {{data.page}} </h2> -->
+
+  <table id="table">
+    <tr>
+      <th>id</th>
+      <th>date</th>
+      <th>type</th>
+      <th>item</th>
+      <th>amount</th>
+    </tr>
+  </table>
+
+  <form>
+    <label for="query_text">Query: </label><br>
+    <input type=text id="query_text"><br>
+  </form>
+
+  <button type="button", onclick="send_data()">Send</button>
+  <p>SQL: </p><p id=sql>
+  <p>Result: </p><p id=result>
+
+  <script>
+    // Load table from database.
+    window.onload = function() {
+      const xhttp = new XMLHttpRequest();
+      xhttp.onload = function() {
+        const objs = JSON.parse(this.responseText);
+        create_table(objs);
+      }
+      xhttp.open("GET", "getall");
+      xhttp.send();
+    }
+
+    function create_table(objs) {
+      let table_ref = document.getElementById("table");
+
+      objs.forEach((obj, _) => {
+        let new_row = table_ref.insertRow(-1); // Append row.
+        Object.values(obj).forEach((value, _) => {
+          let new_text = document.createTextNode(value);
+          let new_cell = new_row.insertCell(-1); // Append cell.
+          new_cell.appendChild(new_text);
+        });
+      });
+    }
+
+    function send_data() {
+      query = document.getElementById("query_text").value
+      const data = {
+        text: query,
+      };
+
+      const xhttp = new XMLHttpRequest();
+      xhttp.onload = function() {
+        // Parse server response, which is a JSON string.
+        const response = JSON.parse(this.responseText);
+        document.getElementById("sql").innerHTML = response.sql
+        document.getElementById("result").innerHTML = response.result
+      }
+      xhttp.open("POST", "query");
+      xhttp.setRequestHeader("Content-type", "application/json")
+      xhttp.send(JSON.stringify(data));
+    }
+  </script>
+</body>
+</html>
