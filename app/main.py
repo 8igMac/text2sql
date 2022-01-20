@@ -30,13 +30,17 @@ async def home(request: Request):
 
 @app.post("/query", response_model=UserOut)
 def query(input: UserIn):
-    try:
-        sql = rule.text2sql(input.text)
-        result_dict = db.execute(sql)
-        result_str = str(result_dict) # TODO: do anything with the dictionary.
-        return {"sql": sql, "result": result_str}
-    except Exception as e:
-        return {"sql": '', "result": str(e)}
+    # try:
+    #     sql = rule.text2sql(input.text)
+    #     result_dict = db.execute(sql)
+    #     result_str = str(result_dict) # TODO: do anything with the dictionary.
+    #     return {"sql": sql, "result": result_str}
+    # except Exception as e:
+    #     return {"sql": '', "result": str(e)}
+    sql = rule.text2sql(input.text)
+    result_dict = db.execute(sql)
+    result_str = str(result_dict) # TODO: do anything with the dictionary.
+    return {"sql": sql, "result": result_str}
         
 
 @app.get("/getall")
