@@ -31,5 +31,5 @@ $ docker-compose up -d
 ```
 - Stop the application.
 ```sh
-$ docker-compose down
+$ docker-compose down --volumes
 ```
