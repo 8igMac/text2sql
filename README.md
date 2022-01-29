@@ -21,7 +21,15 @@ $ uvicorn app.main:app --reload
 - Open the demo page at [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 ## Deployment
-Start the API server.
+- Build the application image.
+```sh
+$ docker build -t text2sql .
 ```
-$ uvicorn app.main:app --host 0.0.0.0 --port 80
+- Start the application using `docker-compose`.
+```sh
+$ docker-compose up -d
+```
+- Stop the application.
+```sh
+$ docker-compose down
 ```

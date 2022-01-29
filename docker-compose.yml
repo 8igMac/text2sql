@@ -1,0 +1,27 @@
+version: "3.8"
+
+# Docker compose automatically define a network. The service name is the 
+# network alias.
+services: 
+  # This is the command I ran to start a text2sql_app container:
+  # docker run -d --name text2sql_deploy -p 3000:80 --network text2sql -e MYSQL_HOST=mysql -e MYSQL_USER=root -e MYSQL_PASSWORD=secret -e MYSQL_DB=text2sql text2sql:latest
+  text2sql_app:
+    image: text2sql:latest
+    ports:
+      - 3000:80
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: text2sql
+  # Use bind mount if you want to assign specific data storage location.
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - text2sql-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: text2sql
+
+volumes:
+  text2sql-mysql-data:

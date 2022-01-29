@@ -19,6 +19,8 @@
 -- Table structure for table `accounting`
 --
 
+USE text2sql;
+
 DROP TABLE IF EXISTS `accounting`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

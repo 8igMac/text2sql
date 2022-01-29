@@ -1,11 +1,43 @@
 import pymysql.cursors
+import os
+import time
+import socket
 
-# TODO: Move credential away.
+HOST = os.getenv('MYSQL_HOST')
+USER = os.getenv('MYSQL_USER')
+PASSWORD = os.getenv('MYSQL_PASSWORD')
+DB = os.getenv('MYSQL_DB')
+
+def wait_port(port: int, host='localhost', timeout=5.0):
+    '''Wait for port start acepting TCP connection.
+    Args:
+        port (int): Port number.
+        host (str): Host address.
+        timeout (float): In seconds, how long to wait before raising errors.
+    Raises:
+        TimeoutError: The port isn't accepting connection after time specified
+                      in `timeout`.
+    '''
+
+    while True:
+        start_time = time.perf_counter()
+        try:
+            with socket.create_connection((host, port), timeout=timeout):
+                break
+        except OSError as e:
+            time.sleep(0.01)
+            if time.perf_counter() - start_time >= timeout:
+                raise TimeoutError(f'Wait too long for port {port} on host {host}'
+                                'to start acepting connection') from e
+
+
+wait_port(port=3306, host=HOST, timeout=5.0)
+
 connection = pymysql.connect(
-    host='localhost',
-    user='text2sql',
-    password='text2sql',
-    database='text2sql',
+    host=HOST,
+    user=USER,
+    password=PASSWORD,
+    database=DB,
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor
 )
