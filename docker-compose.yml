@@ -18,6 +18,8 @@ services:
   mysql:
     image: mysql:5.7
     volumes:
+      # Load sql dump.
+      - ./:/docker-entrypoint-initdb.d
       - text2sql-mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: secret
